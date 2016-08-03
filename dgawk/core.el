@@ -47,16 +47,15 @@ ORIG_ARGS should contain a tokenized list of the command line to run.
 
 We return the a list containing
 * the name of the debugger given (e.g. dgawk) and its arguments - a list of strings
-* nil (a placehoder in other routines of this ilk for a debugger
+* the awk script name
 * the script name and its arguments - list of strings
-* whether the annotate or emacs option was given ('-A', '--annotate' or '--emacs) - a boolean
 
 For example for the following input
   (map 'list 'symbol-name
    '(dgawk -f columnize.awk -n ./gcd.awk a b))
 
 we might return:
-   ((\"dgawk\" \"-f\" \"columnize.awk\' \"-n\") nil \"(/tmp/gcd.awk a b\") 't\")
+   ((\"dgawk\" \"-f\" \"columnize.awk\' \"-n\") \"columnize.awk\" \"(a b\")
 
 Note that path elements have been expanded via `expand-file-name'.
 "
@@ -106,13 +105,13 @@ Note that path elements have been expanded via `expand-file-name'.
 	      (nconc debugger-args (car pair))
 	      (if (or (equal "-f" (caar pair))
 		      (equal "--file" (cadr pair)))
-		  (setq script-name (cdar pair)))
+		  (setq script-name (copy-sequence (cadar pair))))
 	      (setq args (cadr pair)))
 	     ;; Anything else must be the script to debug.
 	     (t (setq script-name arg)
 		(setq script-args args))
 	     )))
-	(list debugger-args nil script-args nil)))))
+	(list debugger-args script-name script-args)))))
 
 (defvar realgud:dgawk-command-name)
 

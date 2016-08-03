@@ -49,7 +49,7 @@ This should be an executable on your path, or an absolute file name."
 ;;
 
 ;;;###autoload
-(defun realgud:dgawk (&optional opt-cmd-line no-reset)
+(defun realgud:dgawk (&optional opt-command-line no-reset)
   "Invoke the dgawk debugger and start the Emacs user interface.
 
 OPT-CMD-LINE is treated like a shell string; arguments are
@@ -65,18 +65,16 @@ fringe and marginal icons.
 "
 
   (interactive)
-  (let* ((cmd-str (or opt-cmd-line (realgud:dgawk-query-cmdline "dgawk")))
+  (let* ((cmd-str (or opt-command-line (realgud:dgawk-query-cmdline "dgawk")))
 	 (cmd-args (split-string-and-unquote cmd-str))
 	 (parsed-args (realgud:dgawk-parse-cmd-args cmd-args))
 	 (script-args (caddr parsed-args))
-	 (script-name (car script-args))
+	 (script-name (cadr parsed-args))
 	 (parsed-cmd-args
-	  (cl-remove-if 'nil (realgud:flatten parsed-args)))
-	 (cmd-buf (realgud:run-process realgud:dgawk-command-name
-				       script-name parsed-cmd-args
-				       'realgud:dgawk-minibuffer-history
-				       nil))
+	  (remove-if 'nil (realgud:flatten parsed-args)))
 	 )
+    (realgud:run-process "dgawk" script-name parsed-cmd-args
+			 'realgud:dgawk-minibuffer-history)
     )
   )
 
