@@ -17,14 +17,13 @@
 (eval-when-compile (require 'cl))
 
 (require 'realgud)
-(require 'realgud-lang-ruby)
 (require 'ansi-color)
 
 (defvar realgud:dgawk-pat-hash)
 (declare-function make-realgud-loc-pat (realgud-loc))
 
 (defconst realgud:dgawk-frame-file-regexp
-  (format "\\(.+\\):%s" realgud:regexp-captured-num))
+  (format "`\\(.+\\)':%s" realgud:regexp-captured-num))
 
 (defconst realgud:dgawk-debugger-name "dgawk" "Name of debugger")
 
@@ -82,17 +81,15 @@ realgud-loc-pat struct")
   "\\(?:^\\|\n\\)")
 
 (defconst realgud:dgawk-frame-num-regexp
-  (format "#%s " realgud:regexp-captured-num))
+  (format "#%s" realgud:regexp-captured-num))
 
 ;; Regular expression that describes a dgawk "backtrace" command line.
 ;; #0	 main() at `/usr/share/doc/lsof/examples/xusers.awk':77
-(setf (gethash "debugger-backtrace" realgud:dgawk-pat-hash)
+(setf (gethash "selected-frame" realgud:dgawk-pat-hash)
       (make-realgud-loc-pat
-       :regexp 	(concat realgud:dgawk-frame-start-regexp
+       :regexp 	(format "^%s.+[ ]+at %s"
 			realgud:dgawk-frame-num-regexp
-			"\\(?:.\\|\\(?:[\n] \\)\\)+[ ]+at "
-			realgud:dgawk-frame-file-regexp
-			)
+			realgud:dgawk-frame-file-regexp)
        :num 1
        :file-group 2
        :line-group 3)

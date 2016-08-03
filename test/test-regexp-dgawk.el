@@ -17,54 +17,42 @@
 (eval-when-compile
   (defvar dbg-name)   (defvar realgud-pat-hash)   (defvar realgud-bt-hash)
   (defvar loc-pat)    (defvar prompt-pat)         (defvar lang-bt-pat)
-  (defvar file-group) (defvar line-group)
-  (defvar test-dbgr)  (defvar test-text)
+  (defvar file-group) (defvar line-group)         (defvar frame-pat)
+  (defvar test-dbgr)  (defvar test-text)          (defvar frame-re)
 )
 
+(setq frame-pat  (gethash "selected-frame" realgud:dgawk-pat-hash))
+(setq frame-re (realgud-loc-pat-regexp frame-pat))
 ;; Some setup usually done in setting up the buffer.
 ;; We customize this for this debugger.
 ;; FIXME: encapsulate this.
 (setq dbg-name "dgawk")
 
-(setq loc-pat (gethash "loc" (gethash dbg-name realgud-pat-hash)))
-(setq test-dbgr (make-realgud-cmdbuf-info
-		  :debugger-name dbg-name
-		  :loc-regexp (realgud-loc-pat-regexp loc-pat)
-		  :file-group (realgud-loc-pat-file-group loc-pat)
-		  :line-group (realgud-loc-pat-line-group loc-pat)))
+(note "selected-frame matching")
 
-;; ;; FIXME: we get a void variable somewhere in here when running
-;; ;;        even though we define it in lexical-let. Dunno why.
-;; ;;        setq however will workaround this.
-;; (setq test-text "[1, 10] in /home/rocky/realgud-dgawk/test/gcd.rb
-;;     1: #!/usr/bin/env ruby
-;;     2:
-;;     3: # GCD. We assume positive numbers
-;; =>  4: def gcd(a, b)
-;;     5:   # Make: a <= b
-;; ")
-;; (note "traceback location matching")
+(setq test-text "gawk> backtrace
+#0	 main() at `xusers.awk':70
+")
 
-;; (assert-t (numberp (cmdbuf-loc-match test-text test-dbgr)) "basic location")
-;; (assert-equal "/home/rocky/realgud-dgawk/test/gcd.rb"
-;; 	      (match-string (realgud-cmdbuf-info-file-group test-dbgr)
-;; 			    test-text) "extract file name")
-;; (assert-equal "4"
-;; 	      (match-string (realgud-cmdbuf-info-line-group test-dbgr)
-;; 			    test-text) "extract line number")
-
-
-
-;; (note "traceback location matching")
-;; ;; FIXME: we get a void variable somewhere in here when running
-;; ;;        even though we define it in lexical-let. Dunno why.
-;; ;;        setq however will workaround this.
-;; (setq lang-bt-pat  (gethash "lang-backtrace"
-;;                             realgud:dgawk-pat-hash))
+(setq num-group (realgud-loc-pat-num frame-pat))
+(setq file-group (realgud-loc-pat-file-group frame-pat))
+(setq line-group (realgud-loc-pat-line-group frame-pat))
+(assert-equal 16 (string-match frame-re test-text))
+(assert-equal "0" (substring test-text
+			     (match-beginning num-group)
+			     (match-end num-group)))
+(assert-equal "xusers.awk"
+	      (substring test-text
+			 (match-beginning file-group)
+			 (match-end file-group)))
+(assert-equal "70"
+	      (substring test-text
+			 (match-beginning line-group)
+			 (match-end line-group)))
 
 (note "prompt")
 (set (make-local-variable 'prompt-pat)
      (gethash "prompt" realgud:dgawk-pat-hash))
-(prompt-match "dgawk >")
+(prompt-match "dgawk> ")
 
 (end-tests)

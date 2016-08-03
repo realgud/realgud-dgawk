@@ -17,6 +17,7 @@
   (setq helper-bps    (gethash "brkpt-set" pat-hash))
   (setq helper-loc    (gethash "loc"       pat-hash))
   (setq helper-tb     (gethash "lang-backtrace" pat-hash))
+  (setq helper-frame  (gethash "selected-frame" pat-hash))
 )
 
 (defun loc-match(text var)
@@ -33,6 +34,11 @@
 )
 
 (defun cmdbuf-loc-match(text dbgr)
+  "Match TEXT against realgud-cmdbuf-info-loc DBGR"
+  (string-match (realgud-cmdbuf-info-loc-regexp dbgr) text)
+  )
+
+(defun cmdbuf-selected-frame-match(text dbgr)
   "Match TEXT against cmdbuf-info-loc field VAR"
   (string-match (realgud-cmdbuf-info-loc-regexp dbgr) text)
   )
