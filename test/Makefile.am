@@ -1,7 +1,6 @@
 include $(top_srcdir)/common.mk
 
 PHONY=check test all check-elget test-elget help
-EXTRA_DIST += gcd.py gcd.rb gdb
 
 #: overall help on running the make targets
 help:
@@ -57,7 +56,7 @@ check-short-elget:
 	$(MAKE) check-elget 2>&1  | ruby ../make-check-filter.rb
 
 test-%.run:
-	(cd $(top_srcdir)/test && $(EMACS) --batch --no-site-file --no-splash --load $(@:.run=.el))
+	(cd $(top_srcdir)/test && EMACSLOADPATH=$(EMACSLOADPATH) $(EMACS) --batch --no-site-file --no-splash --load $(@:.run=.el))
 
 #: Run tests using el-get to specify external Lisp dependencies
 test-%.elrun:

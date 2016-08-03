@@ -2,11 +2,11 @@
 
 ;; Author: Rocky Bernstein
 ;; Version: 1.0
-;; Package-Requires: ((realgud "1.3"))
+;; Package-Requires: ((realgud "1.4.2"))
 ;; URL: http://github.com/rocky/realgud-byebug
 ;; Compatibility: GNU Emacs 24.x
 
-;; Copyright (C) 2015, 2016 Free Software Foundation, Inc
+;; Copyright (C) Rocky Bernstein <rocky@gnu.org>
 
 ;; Author: Rocky Bernstein <rocky@gnu.org>
 
@@ -35,13 +35,13 @@
 
 (require 'load-relative)
 
-(defgroup realgud-byebug  nil
-  "Realgud interface to Ruby byebug debugger"
+(defgroup realgud-dgawk  nil
+  "Realgud interface to GNU AWK debugger"
   :group 'realgud
   :version "24.3")
 
-(require-relative-list '( "./byebug/byebug" ) "realgud-")
+(require-relative-list '( "./dgawk/dgawk" ) "realgud-")
 
 (provide-me)
 
-;;; realgud-byebug.el ends here
+;;; realgud-dgawk.el ends here
