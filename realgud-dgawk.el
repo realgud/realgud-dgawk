@@ -1,8 +1,9 @@
-;;; realgud-byebug.el --- realgud front-end to the Ruby byebug debugger
+;;; realgud-dgawk.el --- realgud front-end to the GNU AWK debugger
 
 ;; Author: Rocky Bernstein
 ;; Version: 1.0
-;; Package-Requires: ((realgud "1.4.2"))
+;; Package-Type: multi
+;; Package-Requires: ((realgud "1.4.3") (cl-lib "0.5") (emacs "24"))
 ;; URL: http://github.com/rocky/realgud-byebug
 ;; Compatibility: GNU Emacs 24.x
 

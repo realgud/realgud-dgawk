@@ -13,7 +13,7 @@ include common.mk
 
 PHONY=check clean dist distclean test check-short check-terse install-short
 
-EXTRA_DIST=common.mk.in README.md THANKS test/gcd.py test/gcd.rb test/gdb $(lisp_files)
+EXTRA_DIST=common.mk.in INSTALL.md README.md THANKS test/gcd.py test/xusers.awk $(lisp_files)
 
 
 if MAINTAINER_MODE
