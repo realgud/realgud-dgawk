@@ -19,6 +19,7 @@
   (defvar loc-pat)    (defvar prompt-pat)         (defvar lang-bt-pat)
   (defvar file-group) (defvar line-group)         (defvar frame-pat)
   (defvar test-dbgr)  (defvar test-text)          (defvar frame-re)
+  (defvar num-group)  (defvar realgud:dgawk-pat-hash)
 )
 
 (setq frame-pat  (gethash "selected-frame" realgud:dgawk-pat-hash))

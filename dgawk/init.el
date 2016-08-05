@@ -83,6 +83,9 @@ realgud-loc-pat struct")
 (defconst realgud:dgawk-frame-num-regexp
   (format "#%s" realgud:regexp-captured-num))
 
+;; Top frame number
+(setf (gethash "top-frame-num" realgud:dgawk-pat-hash) 0)
+
 ;; Regular expression that describes a dgawk "backtrace" command line.
 ;; #0	 main() at `/usr/share/doc/lsof/examples/xusers.awk':77
 (setf (gethash "selected-frame" realgud:dgawk-pat-hash)
@@ -114,6 +117,9 @@ realgud-loc-pat struct")
 (setf (gethash "disable"  realgud:dgawk-command-hash) "disable breakpoints %p")
 (setf (gethash "enable"   realgud:dgawk-command-hash) "enable breakpoints %p")
 (setf (gethash "restart"  realgud:dgawk-command-hash) "run")
+
+;; "print" is not quite a full eval, but it's the best gawk has
+(setf (gethash "eval"  realgud:dgawk-command-hash) "print %s")
 
 ;; Unsupported features:
 (setf (gethash "jump"     realgud:dgawk-command-hash) "*not-implemented*")

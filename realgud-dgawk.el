@@ -4,7 +4,7 @@
 ;; Version: 1.0
 ;; Package-Type: multi
 ;; Package-Requires: ((realgud "1.4.3") (cl-lib "0.5") (emacs "24"))
-;; URL: http://github.com/rocky/realgud-byebug
+;; URL: http://github.com/rocky/realgud-dgawk
 ;; Compatibility: GNU Emacs 24.x
 
 ;; Copyright (C) Rocky Bernstein <rocky@gnu.org>
